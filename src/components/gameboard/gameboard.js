@@ -11,48 +11,28 @@ function GameBoard() {
   const [count, setCount] = useState(1);
   useEffect(() => {
     if (count % 2 ===  0) {
-        // // have the computer pick a random square
-        // let randomSquare = (Math.floor(Math.random() * 8) + 1);
-        // console.log('RANDOM RANDOM: ', randomSquare)
-        // // find the associated td
-        // const tds = document.querySelectorAll('td')
-        // console.log(tds[randomSquare])
-        // if (tds[randomSquare].innerText === "Open") {
-        //     tds[randomSquare].innerText = "O"
-        //     setCount(count + 1)
-        // } else {
-            // populateRandomSquare()
-        // }
-        // let selectedSquare = populateRandomSquare()
-        // if (selectedSquare.innerText === "Open") {
-        //     selectedSquare.innerText = "O"
-            // setCount(count + 1)
-        // }
-
-        let test = populateRandomSquare()
-        console.log(test)
-        test.innerText = "O"
-        console.log(test)
+        // attempt to populate an open square
+        let checkboxChecked = 10
+        for (let i = 0; i < checkboxChecked; i++) {
+          // have the computer pick a random square
+          let randomSquareNumber = (Math.floor(Math.random() * 8));
+          // find the associated td and populate it
+          const tds = document.querySelectorAll('td')
+          if (tds[randomSquareNumber].innerText === 'Open') {
+            tds[randomSquareNumber].innerText = "O"
+            tds[randomSquareNumber].className = tds[randomSquareNumber].className + " omarked"
+            validationCheck("THE COMPUTER");
+            break;
+          }
+          i++;
+        }
         setCount(count + 1)
     }
-  }, [count]);
+  });
 
-  // populates a square to choose for the computer
-  function populateRandomSquare() {
-        let randomSquareNumber = (Math.floor(Math.random() * 8));
-        console.log('RANDOM RANDOM: ', randomSquareNumber)
-        // find the associated td
-        const tds = document.querySelectorAll('td')
-        // console.log(tds[randomSquareNumber])
-        if (tds[randomSquareNumber].innerHTML !== "Open") {
-            randomSquareNumber = populateRandomSquare()
-        }
-        return tds[randomSquareNumber]
-  }
-
-  const incrementCount = () => {
-    setCount(count + 1);
-  }
+  // const incrementCount = () => {
+  //   setCount(count + 1);
+  // }
 
   let clickTest = (event) => {
     const clickedElement = event?.target;
@@ -63,16 +43,16 @@ function GameBoard() {
     ) {
       if (clickedElement.innerText === "Open") {
           clickedElement.innerText = "X";
+          clickedElement.className = clickedElement.className + " xmarked"
         setCount(count + 1)
       } else {
         alert("THIS TILE HAS ALREADY BEEN PLAYED");
       }
       validationCheck();
     }
-    // validationCheck()
   };
 
-  let validationCheck = () => {
+  let validationCheck = (winner = userName) => {
     let tableRows = document.querySelectorAll("td");
     let validationArray = [];
     tableRows.forEach((cell) => {
@@ -89,21 +69,21 @@ function GameBoard() {
       validationArray[0]?.mark === validationArray[3]?.mark &&
       validationArray[3]?.mark === validationArray[6]?.mark
     ) {
-      alert(userName + " HAS WON THE GAME!");
+      alert(winner + " HAS WON THE GAME!");
       resetTheGame();
     } else if (
       validationArray[1]?.mark !== "Open" &&
       validationArray[1]?.mark === validationArray[4]?.mark &&
       validationArray[4]?.mark === validationArray[7]?.mark
     ) {
-        alert(userName + " HAS WON THE GAME!");
+        alert(winner + " HAS WON THE GAME!");
         resetTheGame();
     } else if (
       validationArray[2]?.mark !== "Open" &&
       validationArray[2]?.mark === validationArray[5]?.mark &&
       validationArray[5]?.mark === validationArray[8]?.mark
     ) {
-        alert(userName + " HAS WON THE GAME!");
+        alert(winner + " HAS WON THE GAME!");
         resetTheGame();
     } // next three are for straight across
     else if (
@@ -111,21 +91,21 @@ function GameBoard() {
       validationArray[0]?.mark === validationArray[1]?.mark &&
       validationArray[1]?.mark === validationArray[2]?.mark
     ) {
-        alert(userName + " HAS WON THE GAME!");
+        alert(winner + " HAS WON THE GAME!");
         resetTheGame();
     } else if (
       validationArray[3]?.mark !== "Open" &&
       validationArray[3]?.mark === validationArray[4]?.mark &&
       validationArray[4]?.mark === validationArray[5]?.mark
     ) {
-        alert(userName + " HAS WON THE GAME!");
+        alert(winner + " HAS WON THE GAME!");
         resetTheGame();
     } else if (
       validationArray[6]?.mark !== "Open" &&
       validationArray[6]?.mark === validationArray[7]?.mark &&
       validationArray[7]?.mark === validationArray[8]?.mark
     ) {
-        alert(userName + " HAS WON THE GAME!");
+        alert(winner + " HAS WON THE GAME!");
         resetTheGame();
     } // final two are for the crosses
     else if (
@@ -133,14 +113,14 @@ function GameBoard() {
       validationArray[0]?.mark === validationArray[4]?.mark &&
       validationArray[4]?.mark === validationArray[8]?.mark
     ) {
-        alert(userName + " HAS WON THE GAME!");
+        alert(winner + " HAS WON THE GAME!");
         resetTheGame();
     } else if (
       validationArray[2]?.mark !== "Open" &&
       validationArray[2]?.mark === validationArray[4]?.mark &&
       validationArray[4]?.mark === validationArray[6]?.mark
     ) {
-        alert(userName + " HAS WON THE GAME!");
+        alert(winner + " HAS WON THE GAME!");
         resetTheGame();
     }
   };
@@ -149,6 +129,7 @@ function GameBoard() {
     let tableRows = document.querySelectorAll("td");
     tableRows.forEach((cell) => {
       cell.innerText = "Open";
+      cell.className = cell.className.split(" ")[0]
     });
     setCount(1)
   };
@@ -158,7 +139,7 @@ function GameBoard() {
       <div>
         <div>
           <h3>Tik Tak Toe</h3>
-          <button onClick={incrementCount}>count test</button>
+          <button onClick={resetTheGame}>Reset the Game</button>
         </div>
         <div>
           <table className="game-table">
