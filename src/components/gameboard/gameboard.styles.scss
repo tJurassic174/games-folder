@@ -1,0 +1,17 @@
+.game-table {
+    // border: 1px solid black;
+    width: 80%;
+    margin-left: 10%;
+    margin-right: 10%;
+}
+
+.A1, .B1, .A2, .B2 {
+    border-bottom: 1px solid black;
+    border-right: 1px solid black;
+}
+.A3, .B3 {
+    border-bottom: 1px solid black;
+}
+.C1, .C2 {
+    border-right: 1px solid black;
+}
